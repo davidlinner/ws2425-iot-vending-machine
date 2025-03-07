@@ -25,12 +25,13 @@ class QR:
         cap = cv2.VideoCapture(0)
 
         while self._running:
-            ret, frame = cap.read()
+            retval, frame = cap.read()
 
-            decoded_objects = pyzbar.decode(frame)
+            if retval:
+                decoded_objects = pyzbar.decode(frame)
 
-            for obj in decoded_objects:
-                qr_data = obj.data.decode('utf-8')
-                callback(qr_data)
+                for obj in decoded_objects:
+                    qr_data = obj.data.decode('utf-8')
+                    callback(qr_data)
 
         cap.release()
